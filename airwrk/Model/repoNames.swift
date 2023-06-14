@@ -7,6 +7,39 @@
 
 import Foundation
 
-struct Repository: Decodable {
+struct repo: Decodable {
     let repositoryNames: [String]
+}
+struct Repository: Decodable {
+    let name: String
+    let description: String?
+    let owner: Owner
+    let htmlURL: String
+    let commitsURL: String
+    
+    private enum CodingKeys: String, CodingKey {
+        case name
+        case description
+        case owner
+        case htmlURL = "html_url"
+        case commitsURL = "commits_url"
+    }
+}
+
+struct Owner: Decodable {
+    let login: String
+}
+
+struct Commit: Decodable {
+    let sha: String
+    let author: Author
+    let commit: CommitInfo
+}
+
+struct Author: Decodable {
+    let login: String
+}
+
+struct CommitInfo: Decodable{
+    
 }

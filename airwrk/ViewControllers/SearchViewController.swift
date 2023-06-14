@@ -19,6 +19,10 @@ class SearchViewController: BaseVC, UISearchBarDelegate, UITableViewDataSource, 
        var filteredData: [String] = []
     
     var data = [""]
+    var repoDetail = ""
+    var repoOwner = ""
+    var repoURL = ""
+//    var repoName = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,7 +65,7 @@ class SearchViewController: BaseVC, UISearchBarDelegate, UITableViewDataSource, 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // Get the selected item from your data source
         let selectedItem = data[indexPath.row]
-        
+        getRepositoryDetailsAndCommits(for: "blankbrain", repository: selectedItem)
         // Create a custom view to display the details
         let customView = UIView(frame: CGRect(x: 0, y: tableView.frame.height, width: tableView.frame.width, height: 200))
         customView.backgroundColor = .white
@@ -155,5 +159,99 @@ class SearchViewController: BaseVC, UISearchBarDelegate, UITableViewDataSource, 
         
         task.resume()
     }
+    
+   // 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
 
+    func getRepositoryDetailsAndCommits(for owner: String, repository: String) {
+        let url = URL(string: "https://api.github.com/repos/\(owner)/\(repository)")!
+        let token = "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" // Replace with your GitHub API token
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                print("Error: \(error)")
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse,
+                  (200...299).contains(httpResponse.statusCode) else {
+                print("Invalid response")
+                return
+            }
+            
+            guard let data = data else {
+                print("No data received")
+                return
+            }
+            
+            do {
+                let repository = try JSONDecoder().decode(Repository.self, from: data)
+                print("Repository Details:")
+                print("Name: \(repository.name)")
+                print("Description: \(repository.description ?? "N/A")")
+                print("Owner: \(repository.owner.login)")
+                print("URL: \(repository.htmlURL)")
+                
+                 
+                self.repoDetail = repository.name
+                self.self.repoOwner = repository.description ?? "N/A"
+                self.repoURL = repository.htmlURL
+                self.tableView.reloadData()
+                
+                // Fetch commit history
+                self.fetchCommitHistory(for: repository)
+            } catch {
+                print("Error decoding JSON: \(error)")
+            }
+        }
+        
+        task.resume()
+    }
+
+    func fetchCommitHistory(for repository: Repository) {
+        let url = URL(string: repository.commitsURL.replacingOccurrences(of: "{/sha}", with: ""))!
+        let token = "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" // Replace with your GitHub API token
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                print("Error: \(error)")
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse,
+                  (200...299).contains(httpResponse.statusCode) else {
+                print("Invalid response")
+                return
+            }
+            
+            guard let data = data else {
+                print("No data received")
+                return
+            }
+            
+            do {
+                let commits = try JSONDecoder().decode([Commit].self, from: data)
+                print("Commit History:")
+                for commit in commits {
+                    print("SHA: \(commit.sha)")
+                    print("Author: \(commit.author.login)")
+                    print("Message: \(commit.commit)")
+                    print("----")
+                }
+            } catch {
+                print("Error decoding JSON: \(error)")
+            }
+        }
+        
+        task.resume()
+    }
+
+   
 }
