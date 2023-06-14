@@ -14,6 +14,11 @@
 		BA3125BE2A39FCF6005DA478 /* airwrk.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BA3125BC2A39FCF6005DA478 /* airwrk.xcdatamodeld */; };
 		BA3125C02A39FCFB005DA478 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA3125BF2A39FCFB005DA478 /* Assets.xcassets */; };
 		BA3125C32A39FCFB005DA478 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA3125C12A39FCFB005DA478 /* LaunchScreen.storyboard */; };
+		BA3125CB2A3A0B19005DA478 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3125CA2A3A0B19005DA478 /* Utility.swift */; };
+		BA3125CD2A3A0B32005DA478 /* BaseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3125CC2A3A0B32005DA478 /* BaseVC.swift */; };
+		BA3125CF2A3A0B4C005DA478 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3125CE2A3A0B4B005DA478 /* Constants.swift */; };
+		BA3125D12A3A0B56005DA478 /* PreferenceHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3125D02A3A0B56005DA478 /* PreferenceHelper.swift */; };
+		BA3125D32A3A0B63005DA478 /* Extension in Resources */ = {isa = PBXBuildFile; fileRef = BA3125D22A3A0B63005DA478 /* Extension */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +31,11 @@
 		BA3125BF2A39FCFB005DA478 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BA3125C22A39FCFB005DA478 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BA3125C42A39FCFB005DA478 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BA3125CA2A3A0B19005DA478 /* Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
+		BA3125CC2A3A0B32005DA478 /* BaseVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseVC.swift; sourceTree = "<group>"; };
+		BA3125CE2A3A0B4B005DA478 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		BA3125D02A3A0B56005DA478 /* PreferenceHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferenceHelper.swift; sourceTree = "<group>"; };
+		BA3125D22A3A0B63005DA478 /* Extension */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Extension; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +68,8 @@
 		BA3125B22A39FCF6005DA478 /* airwrk */ = {
 			isa = PBXGroup;
 			children = (
+				BA3125D22A3A0B63005DA478 /* Extension */,
+				BA3125D42A3A0B70005DA478 /* utility */,
 				BA3125B32A39FCF6005DA478 /* AppDelegate.swift */,
 				BA3125B52A39FCF6005DA478 /* SceneDelegate.swift */,
 				BA3125B72A39FCF6005DA478 /* ViewController.swift */,
@@ -68,6 +80,17 @@
 				BA3125BC2A39FCF6005DA478 /* airwrk.xcdatamodeld */,
 			);
 			path = airwrk;
+			sourceTree = "<group>";
+		};
+		BA3125D42A3A0B70005DA478 /* utility */ = {
+			isa = PBXGroup;
+			children = (
+				BA3125CC2A3A0B32005DA478 /* BaseVC.swift */,
+				BA3125CE2A3A0B4B005DA478 /* Constants.swift */,
+				BA3125D02A3A0B56005DA478 /* PreferenceHelper.swift */,
+				BA3125CA2A3A0B19005DA478 /* Utility.swift */,
+			);
+			path = utility;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -130,6 +153,7 @@
 			files = (
 				BA3125C32A39FCFB005DA478 /* LaunchScreen.storyboard in Resources */,
 				BA3125C02A39FCFB005DA478 /* Assets.xcassets in Resources */,
+				BA3125D32A3A0B63005DA478 /* Extension in Resources */,
 				BA3125BB2A39FCF6005DA478 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -141,8 +165,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BA3125D12A3A0B56005DA478 /* PreferenceHelper.swift in Sources */,
+				BA3125CB2A3A0B19005DA478 /* Utility.swift in Sources */,
+				BA3125CD2A3A0B32005DA478 /* BaseVC.swift in Sources */,
 				BA3125B82A39FCF6005DA478 /* ViewController.swift in Sources */,
 				BA3125B42A39FCF6005DA478 /* AppDelegate.swift in Sources */,
+				BA3125CF2A3A0B4C005DA478 /* Constants.swift in Sources */,
 				BA3125B62A39FCF6005DA478 /* SceneDelegate.swift in Sources */,
 				BA3125BE2A39FCF6005DA478 /* airwrk.xcdatamodeld in Sources */,
 			);
