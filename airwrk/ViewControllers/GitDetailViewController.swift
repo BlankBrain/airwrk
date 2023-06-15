@@ -30,7 +30,7 @@ class GitDetailViewController: UIViewController {
         self.descripction.text = MySingleton.shared.repositoryDescriptions.first
         self.followerCount.text = String(MySingleton.shared.emptyUserInfo.followerCount)
         self.followingCount.text = String(MySingleton.shared.emptyUserInfo.followingCount)
-        self.openIssueCount.text = String(MySingleton.shared.repositoryDescriptions.count)  
+        self.openIssueCount.text = String(MySingleton.shared.repositoryDescriptions.count)
         self.forkCount.text = ""
         self.repoName.text = MySingleton.shared.singletonItem
         fetchRepositoryDescription(owner: "blankbrain", repo: MySingleton.shared.singletonItem) { result in
@@ -93,6 +93,14 @@ class GitDetailViewController: UIViewController {
         
         task.resume()
     }
+    
+    
+    
+    @IBAction func commitClicked(_ sender: Any) {
+        performSegue(withIdentifier: "detailToCommit", sender: self)
+
+    }
+    
     
     
 }

@@ -12,6 +12,7 @@
 		BA23D8B42A3A5F14004FAB09 /* GitModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA23D8B32A3A5F14004FAB09 /* GitModels.swift */; };
 		BA23D8B62A3A68DA004FAB09 /* GitDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA23D8B52A3A68DA004FAB09 /* GitDetailViewController.swift */; };
 		BA23D8B92A3A6ADB004FAB09 /* Singleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA23D8B82A3A6ADB004FAB09 /* Singleton.swift */; };
+		BA23D8BB2A3AAD23004FAB09 /* CommitHisrtoryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA23D8BA2A3AAD23004FAB09 /* CommitHisrtoryVC.swift */; };
 		BA3125B42A39FCF6005DA478 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3125B32A39FCF6005DA478 /* AppDelegate.swift */; };
 		BA3125B62A39FCF6005DA478 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3125B52A39FCF6005DA478 /* SceneDelegate.swift */; };
 		BA3125BB2A39FCF6005DA478 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA3125B92A39FCF6005DA478 /* Main.storyboard */; };
@@ -31,6 +32,7 @@
 		BA23D8B32A3A5F14004FAB09 /* GitModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitModels.swift; sourceTree = "<group>"; };
 		BA23D8B52A3A68DA004FAB09 /* GitDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitDetailViewController.swift; sourceTree = "<group>"; };
 		BA23D8B82A3A6ADB004FAB09 /* Singleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Singleton.swift; sourceTree = "<group>"; };
+		BA23D8BA2A3AAD23004FAB09 /* CommitHisrtoryVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommitHisrtoryVC.swift; sourceTree = "<group>"; };
 		BA3125B02A39FCF6005DA478 /* airwrk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = airwrk.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA3125B32A39FCF6005DA478 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BA3125B52A39FCF6005DA478 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -71,6 +73,7 @@
 			children = (
 				BA23D8A32A3A3E87004FAB09 /* SearchViewController.swift */,
 				BA23D8B52A3A68DA004FAB09 /* GitDetailViewController.swift */,
+				BA23D8BA2A3AAD23004FAB09 /* CommitHisrtoryVC.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -210,6 +213,7 @@
 				BA3125CF2A3A0B4C005DA478 /* Constants.swift in Sources */,
 				BA3125B62A39FCF6005DA478 /* SceneDelegate.swift in Sources */,
 				BA23D8A82A3A44E4004FAB09 /* repoNames.swift in Sources */,
+				BA23D8BB2A3AAD23004FAB09 /* CommitHisrtoryVC.swift in Sources */,
 				BA3125BE2A39FCF6005DA478 /* airwrk.xcdatamodeld in Sources */,
 				BA23D8B62A3A68DA004FAB09 /* GitDetailViewController.swift in Sources */,
 				BA23D8B42A3A5F14004FAB09 /* GitModels.swift in Sources */,
