@@ -10,15 +10,10 @@ import UIKit
 class CommitHisrtoryVC: UIViewController ,UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet weak var tableView: UITableView!
-    var data = [""]
+    var data:[String] = []
     var count = 0
 
-    
-    
-    
-    
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
@@ -35,6 +30,7 @@ class CommitHisrtoryVC: UIViewController ,UITableViewDataSource, UITableViewDele
                     // Do something with each commit
                     self.data.append(commit.sha)
                     
+                    
                 }
                 
             case .failure(let error):
@@ -50,19 +46,23 @@ class CommitHisrtoryVC: UIViewController ,UITableViewDataSource, UITableViewDele
     // MARK: - UITableViewDataSource
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return count
+        return data.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = data[indexPath.row]
+        cell.textLabel?.text = ( "Commit ID:" +  data[indexPath.row] )
+       
         cell.textLabel?.font = UIFont.systemFont(ofSize: 18)
         return cell
     }
-    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        // Return the desired row height for the cell at the specified indexPath
+        return 50// Replace with your desired row height
+    }
+
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedItem = data[indexPath.row]
         
     }
     
@@ -101,6 +101,8 @@ class CommitHisrtoryVC: UIViewController ,UITableViewDataSource, UITableViewDele
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
                 
                 let commits = try decoder.decode([Commit].self, from: data)
+                
+                self.count = commits.count
                 completion(.success(commits))
             } catch {
                 completion(.failure(error))
