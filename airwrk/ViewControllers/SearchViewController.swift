@@ -14,16 +14,9 @@ class SearchViewController: BaseVC, UISearchBarDelegate, UITableViewDataSource, 
     @IBOutlet weak var tableView: UITableView!
     
     var emptyUserInfo = UserInfo(username: "", followerCount: 0, followingCount: 0, repositories: [])
-    
-    
-    
     var filteredData: [String] = []
-    
     var data = [""]
-    var repoDetail = ""
-    var repoOwner = ""
-    var repoURL = ""
-    //    var repoName = ""
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,8 +24,24 @@ class SearchViewController: BaseVC, UISearchBarDelegate, UITableViewDataSource, 
         tableView.dataSource = self
         tableView.delegate = self
         getGitHubRepoNames(for: "blankbrain")
-        
-        
+        fetchGitHubUserAvatar(username: "blankbrain") { avatarImage in
+            if let image = avatarImage {
+                print("Avatar image received")
+                MySingleton.shared.userimage = avatarImage!
+            } else {
+                print("Failed to fetch avatar image")
+            }
+        }
+        fetchGitHubUserInfo(username: "blankbrain") { result in
+            switch result {
+            case .success(let userInfo):
+                MySingleton.shared.emptyUserInfo = userInfo
+                print("User info received: \(userInfo)")
+                
+            case .failure(let error):
+                print("Failed to fetch user info: \(error)")
+            }
+        }
         
         
     }
@@ -66,22 +75,10 @@ class SearchViewController: BaseVC, UISearchBarDelegate, UITableViewDataSource, 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // Get the selected item from your data source
         let selectedItem = data[indexPath.row]
-        
+        MySingleton.shared.singletonItem = selectedItem
+        performSegue(withIdentifier: "SearchToDetail", sender: self)
         
     }
-    
-    @objc func dismissCustomView() {
-        guard let customView = view.subviews.last else { return }
-        
-        // Animate the custom view to slide down to the bottom
-        UIView.animate(withDuration: 0.3, animations: {
-            customView.frame.origin.y = self.tableView.frame.height
-        }) { _ in
-            customView.removeFromSuperview()
-        }
-    }
-    
-    
     
     
     //MARK: functions
@@ -122,60 +119,52 @@ class SearchViewController: BaseVC, UISearchBarDelegate, UITableViewDataSource, 
         task.resume()
     }
     
-    // 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
     
     
-    func getUserInfo(for username: String, completion: @escaping (UserInfo?, Error?) -> Void) {
-        let url = URL(string: "https://api.github.com/users/\(username)")!
-        let token = "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" // Replace with your GitHub API token
+    
+    func fetchGitHubUserInfo(username: String, completion: @escaping (Result<UserInfo, Error>) -> Void) {
+        let urlString = "https://api.github.com/users/\(username)"
         
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        guard let url = URL(string: urlString) else {
+            let error = NSError(domain: "Invalid URL", code: 0, userInfo: nil)
+            completion(.failure(error))
+            return
+        }
         
-        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
             if let error = error {
-                completion(nil, error)
+                completion(.failure(error))
                 return
             }
             
             guard let httpResponse = response as? HTTPURLResponse,
                   (200...299).contains(httpResponse.statusCode) else {
-                completion(nil, NSError(domain: "Invalid response", code: 0, userInfo: nil))
+                let error = NSError(domain: "Invalid response", code: 0, userInfo: nil)
+                completion(.failure(error))
                 return
             }
             
             guard let data = data else {
-                completion(nil, NSError(domain: "No data received", code: 0, userInfo: nil))
+                let error = NSError(domain: "No data received", code: 0, userInfo: nil)
+                completion(.failure(error))
                 return
             }
             
             do {
                 let user = try JSONDecoder().decode(User.self, from: data)
+                let userInfo = UserInfo(username: user.login,
+                                        followerCount: user.followers,
+                                        followingCount: user.following, repositories: [""])
                 
-                // Fetch public repositories
-                self.fetchPublicRepositories(for: username) { repositories, error in
-                    if let error = error {
-                        completion(nil, error)
-                        return
-                    }
-                    
-                    let userInfo = UserInfo(username: user.login,
-                                            followerCount: user.followers,
-                                            followingCount: user.following,
-                                            repositories: repositories)
-                    self.emptyUserInfo = userInfo
-                    
-                    
-                    completion(userInfo, nil)
-                }
+                completion(.success(userInfo))
             } catch {
-                completion(nil, error)
+                completion(.failure(error))
             }
         }
         
         task.resume()
     }
+    
     
     func fetchPublicRepositories(for username: String, completion: @escaping ([String], Error?) -> Void) {
         let url = URL(string: "https://api.github.com/users/\(username)/repos")!
@@ -191,9 +180,45 @@ class SearchViewController: BaseVC, UISearchBarDelegate, UITableViewDataSource, 
                 return
             }
             
-            
-            
-            
         }
     }
+    
+    
+    func fetchGitHubUserAvatar(username: String, completion: @escaping (UIImage?) -> Void) {
+        let urlString = "https://api.github.com/users/\(username)"
+        
+        guard let url = URL(string: urlString) else {
+            completion(nil)
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+            guard let data = data, error == nil else {
+                completion(nil)
+                return
+            }
+            
+            do {
+                if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+                   let avatarURLString = json["avatar_url"] as? String,
+                   let avatarURL = URL(string: avatarURLString),
+                   let imageData = try? Data(contentsOf: avatarURL),
+                   let avatarImage = UIImage(data: imageData) {
+                    completion(avatarImage)
+                    MySingleton.shared.userimage = avatarImage
+                } else {
+                    completion(nil)
+                }
+            } catch {
+                completion(nil)
+            }
+        }
+        
+        task.resume()
+    }
+    
+    
+    
+    
+    
 }

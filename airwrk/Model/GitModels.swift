@@ -16,3 +16,6 @@ struct UserInfo {
     let followingCount: Int
     let repositories: [String]
 }
+struct repo: Decodable {
+    let repositoryNames: [String]
+}

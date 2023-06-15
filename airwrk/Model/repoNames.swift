@@ -7,9 +7,7 @@
 
 import Foundation
 
-struct repo: Decodable {
-    let repositoryNames: [String]
-}
+
 struct Repository: Decodable {
     let name: String
     let description: String?
@@ -42,4 +40,8 @@ struct Author: Decodable {
 
 struct CommitInfo: Decodable{
     
+}
+struct RepoInfo {
+    let name: String
+    let description: String
 }
